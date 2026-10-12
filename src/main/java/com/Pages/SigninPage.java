@@ -2,10 +2,12 @@ package com.Pages;
 
 import java.util.List;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import com.utilities.ElementUtils;
 
@@ -21,6 +23,9 @@ public class SigninPage {
 	
 	@FindBy(xpath="//span[text()='Sign In']")
 	private WebElement signInBtn;
+	
+	@FindBy(xpath="(//button//span)[1]")
+	private WebElement profileLogo;
 	
 	@FindBy(xpath="//h1[contains(@class,'text-2xl sm:text-3xl font')]")
 	private WebElement signinPageTitle;
@@ -40,6 +45,9 @@ public class SigninPage {
 	@FindBy(xpath="//label[@for=\"enter-6-digit-passcode\"]")
 	private WebElement otpPageVerification;
 	
+	@FindBy(xpath="//span[text()='One-time code sent to:']")
+	private WebElement otpPage;
+	
 	@FindBy(id="enter-6-digit-passcode")
 	private WebElement otpField;
 	
@@ -49,7 +57,7 @@ public class SigninPage {
 	@FindBy(xpath="//span[text()='Invalid OTP code']")
 	private WebElement otpValidationMsg;
 	
-	@FindBy(xpath="/h1[contains(@class,'text-2xl sm:text-3xl')]")
+	@FindBy(xpath="//h1[contains(@class,'text-2xl sm:text-3xl font-bla')]")
 	private WebElement homePageTitle;
 	
 	public void clickSiginBtn() {
@@ -93,7 +101,8 @@ public class SigninPage {
 	}
 	
 	public void getHomePageTitle() {
-		 System.out.println("Home Page title is: "+ driver.getTitle());
+		elementUtils.waitForVisibility(profileLogo);
+		 System.out.println("Home Page title is: "+ elementUtils.getText(homePageTitle));
 	}
 	
 	public void getMsgForInvalidMobile() {
@@ -102,6 +111,42 @@ public class SigninPage {
 	
 	public void getMsgForInvalidOtp() {
 		System.out.println("Validation msg: "+elementUtils.getText(otpValidationMsg));
+	}
+	
+	public void validateEmptyMobileField() {
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		boolean isRequired=(Boolean) js.executeScript("return arguments[0].required", mobileNumberField);
+		boolean isEmpty=(Boolean) js.executeScript("return arguments[0].validity.valueMissing;", mobileNumberField);
+		Assert.assertTrue(isRequired, "Mobile number field is not required");
+		Assert.assertTrue(isEmpty, "Mobile number field validation failed");
+	}
+	
+	public void validateEmptyOTPField() {
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		boolean isRequired=(Boolean) js.executeScript("return arguments[0].required", otpField);
+		boolean isEmpty=(Boolean) js.executeScript("return arguments[0].validity.valueMissing;", otpField);
+		Assert.assertTrue(isRequired, "OTP field is not required");
+		Assert.assertTrue(isEmpty, "OTP field validation failed");
+	}
+	
+	public void validateOptionalFullName() {
+//		elementUtils.sendKeys(mobileNumberField, "9876543210");
+//		fullNameField.clear();
+//		elementUtils.click(submitBtn);
+		elementUtils.waitForVisibility(otpField);
+		Assert.assertTrue(elementUtils.isDisplayed(otpField),"Form does not proceed with empty full name");
+	}
+	
+	public void validateMobileLength() {
+		String a=mobileNumberField.getAttribute("value");
+		Assert.assertTrue(a.length()<=10,"Mobile number field accepts more than 10 characters");
+	}
+	
+	public void validateProfileLogo() {
+		elementUtils.waitForVisibility(profileLogo);
+		String a=elementUtils.getText(profileLogo);
+		Assert.assertFalse(a.trim().isEmpty(), "Profile logo initials are not displayed");
+		System.out.println("Profile logo initials after login: "+a);
 	}
 	
 	public HomePage doLogin(String mobile, String name, String otp) {

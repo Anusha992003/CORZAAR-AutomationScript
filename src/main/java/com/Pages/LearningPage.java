@@ -1,9 +1,13 @@
 package com.Pages;
 
+import java.util.List;
+import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import com.utilities.ElementUtils;
 
@@ -41,12 +45,28 @@ public class LearningPage {
 	@FindBy(xpath="//h3[text()='Official Certificate Earned!']")
 	private WebElement certificate;
 	
+	@FindBy(xpath="//div//strong")
+	private WebElement enrolledPrograms;
+	
+	@FindBy(xpath="//div[contains(@class,'flex items-start justify-between gap-2 mb')]")
+	private List<WebElement> displayedPrograms;
+	
+	@FindBy(xpath="//*[text()='No curriculum items registered for this program.']")
+	private List<WebElement> noModuleMsg;
+	
 	public void clickLearningModule() {
 		elementUtils.click(learning);
 	}
 	
 	public void clickCourse() {
 		elementUtils.click(selectCourse);
+	}
+	
+	public void verifyEnrolledProgramsCount() {
+		String pro=elementUtils.getText(enrolledPrograms);
+		int a=Integer.parseInt(pro.replaceAll("\\D+", ""));
+		int b=displayedPrograms.size();
+		Assert.assertEquals(a, b,"Enrolled programs are not equal as displayed in the screen");
 	}
 	
 	public void verifyCourse() {
@@ -80,5 +100,17 @@ public class LearningPage {
 	public void verifyCertificate() {
 		String b= elementUtils.getText(certificate);
 		System.out.println("After completion of course - "+b);
+	}
+	
+	public void verifyModuleDisplay() {
+		if(!noModuleMsg.isEmpty() && noModuleMsg.get(0).isDisplayed()) {
+			System.out.println("BUG: After completing the first module, the remaining modules disappear and the message " + noModuleMsg + " is displayed.");
+		}
+//		else if(module2.isEmpty()) {
+//			System.out.println("BUG: The second module is not displayed after completing the first module");
+//		}
+		else {
+			System.out.println("The second module is displayed and can be accessed");
+		}
 	}
 }

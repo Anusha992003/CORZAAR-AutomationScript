@@ -15,4 +15,4 @@ Examples:
 | 123    | invalid |
 | @#$    | invalid | 
 | apex   | invalid |
-| api    | valid   |
+| data   | valid   |

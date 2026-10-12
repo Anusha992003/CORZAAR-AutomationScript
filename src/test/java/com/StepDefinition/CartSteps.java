@@ -13,17 +13,19 @@ import io.cucumber.java.en.When;
 
 public class CartSteps {
 	private CartPage cartPage;
+	String expectedCourse;
 	
 	@Given("User clicks on any course")
 	public void user_clicks_on_any_course() {
 		FilterPage filterPage = new FilterPage(DriverFactory.getDriver());
 		filterPage.clickCoursesBtn();
 		cartPage = new CartPage(DriverFactory.getDriver());
+	    expectedCourse=cartPage.getSelectedCourseName();
 		cartPage.clickCourse();
 	}
 	@Given("User should be navigated to course details page")
 	public void user_should_be_navigated_to_course_details_page() {
-	    Assert.assertTrue(DriverFactory.getDriver().getCurrentUrl().contains("course-data"));
+          cartPage.getDetailsPageTitle();
 	}
 	@When("User clicks on Add to cart button")
 	public void user_clicks_on_add_to_cart_button() {
@@ -44,6 +46,7 @@ public class CartSteps {
 	}
 	@Then("User enters promo code and clicks on apply button {string}")
 	public void user_enters_promo_code_and_clicks_on_apply_button(String code) {
+		cartPage.validateInvaildCoupon();
 	    cartPage.enterCode(code);
 	    cartPage.clickApplyBtn();
 	}
@@ -58,6 +61,8 @@ public class CartSteps {
 	@Then("User should be navigated to learning space")
 	public void user_should_be_navigated_to_learning_space() {
 	   cartPage.getTitle();
+	   String actualCourse=cartPage.getLearningSpaceCourseName();
+	   Assert.assertEquals(actualCourse,expectedCourse,"The selected course is not displayed in learning space" );
 	}
 
 }

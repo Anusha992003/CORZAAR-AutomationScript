@@ -12,6 +12,7 @@ import io.cucumber.java.en.Then;
 
 public class CertificateSteps {
 	private CertificatePage certificatePage;
+	String expectedName;
 	
 	@Given("User clicks on generated certificate link")
 	public void user_clicks_on_generated_certificate_link() {
@@ -20,6 +21,7 @@ public class CertificateSteps {
 	   Assert.assertTrue(DriverFactory.getDriver().getCurrentUrl().contains("learning"));
 	   learningPage.clickCourse();
 	   certificatePage=new CertificatePage(DriverFactory.getDriver());
+	   expectedName=certificatePage.getCourseNameInLearningSpace();
 	   certificatePage.clickURL();
 	}
 	@Given("User verifies the page navigation")
@@ -28,6 +30,8 @@ public class CertificateSteps {
 	}
 	@Then("User validates the certificate ID")
 	public void user_validates_the_certificate_id() {
+		String actualName=certificatePage.getCourseNameInCertificate();
+		Assert.assertEquals(actualName, expectedName,"Course names are not matching");
 	    certificatePage.verifyCertificateID();
 	}
 	@Then("User clicks on the view button")

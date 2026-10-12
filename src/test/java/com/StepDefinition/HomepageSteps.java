@@ -34,7 +34,6 @@ public class HomepageSteps {
 	@Then("User verifies the search result {string},{string}")
 	public void user_verifies_the_search_result(String result, String search) {
 	    Assert.assertTrue(DriverFactory.getDriver().getCurrentUrl().contains("courses"));
-	    homePage.verifySearchResult();
 	    
 	    switch (result) {
 	    case "empty":
@@ -48,9 +47,7 @@ public class HomepageSteps {
 
 		case "valid":
 			homePage.verifySearchCount();
-			String actualResult=homePage.verifySearchResult();
-			Assert.assertEquals(search, actualResult);
-			System.out.println("Search result is displayed correctly");
+			homePage.verifySearchResult();
 			break;
 		}
 	}

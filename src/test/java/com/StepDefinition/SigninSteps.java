@@ -1,5 +1,7 @@
 package com.StepDefinition;
 
+import java.nio.channels.Pipe.SourceChannel;
+
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -25,9 +27,9 @@ public class SigninSteps {
 	public void user_enters_learner_mobile_number(String mobile) {
 	    signinPage.enterMobileNumber(mobile);
 	}
-	@And("User enters Full name {string}>")
+	@When("User enters Full name {string}")
 	public void user_enters_full_name(String name) {
-	    signinPage.enterFullName(name);
+		signinPage.enterFullName(name);
 	}
 	@And("User clicks on Send OTP button")
 	public void user_clicks_on_send_otp_button() {
@@ -36,9 +38,18 @@ public class SigninSteps {
 	@Then("User should navigate to otp verification page {string}")
 	public void user_should_navigate_to_otp_verification_page(String result) {
 		switch (result.toLowerCase()) {
+		case "empty":
+			signinPage.validateEmptyMobileField();
+		break;
 		case "invalid":
 			signinPage.getMsgForInvalidMobile();
-		break;	
+		break;
+		case "optional":
+			signinPage.validateOptionalFullName();
+		break;
+		case "maxLen":
+			signinPage.validateMobileLength();
+		break;
 		} 
 	}
 	
@@ -60,8 +71,16 @@ public class SigninSteps {
 			signinPage.getMsgForInvalidOtp();
 		break;	
 		case "valid":
+//			System.out.println("Current URL:"+DriverFactory.getDriver().getCurrentUrl());
+//			System.out.println("Current Title: "+DriverFactory.getDriver().getTitle());
+//			String s=DriverFactory.getDriver().getPageSource();
+//			System.out.println("Page source: "+s.substring(0,Math.min(s.length(), 500)));
 			//Assert.assertTrue(DriverFactory.getDriver().getCurrentUrl().contains("learning"));
-		    signinPage.getHomePageTitle();   
+		    signinPage.getHomePageTitle(); 
+		    signinPage.validateProfileLogo();
+		break;
+		case "empty":
+			signinPage.validateEmptyOTPField();
 		break;
 		}
 	}

@@ -88,6 +88,9 @@ public class FilterPage {
 		if(found) {
 			System.out.println("Technology courses are displayed as per filter");
 		}
+		else {
+			System.out.println("Message: "+elementUtils.getText(zeroMatchFilter));
+		}
 	}
 	
 	public void selectDeliveryFormat() {
@@ -95,7 +98,7 @@ public class FilterPage {
 	}
 	
 	public void verifyDeliveryFormatCards() {
-		elementUtils.waitForVisibilityOfAllElements(deliveryFormatCards);
+		//elementUtils.waitForVisibilityOfAllElements(deliveryFormatCards);
 		String count=elementUtils.getText(filterCount);
 		System.out.println("Course displayed: " +count);
 		boolean found = false;
@@ -107,6 +110,9 @@ public class FilterPage {
 		}
 		if(found) {
 			System.out.println("Hybrid courses are displayed as per filter");
+		}
+		else {
+			System.out.println("Message: "+elementUtils.getText(zeroMatchFilter));
 		}
 	}
 	
@@ -137,6 +143,9 @@ public class FilterPage {
 		if(found) {
 			System.out.println("1-3 months duration courses are displayed as per filter");
 		}
+		else {
+			System.out.println("Message: "+elementUtils.getText(zeroMatchFilter));
+		}
 	}
 	
 	public void selectFree() {
@@ -157,6 +166,9 @@ public class FilterPage {
 		if(found) {
 			System.out.println("Free courses are displayed as per filter");
 		}
+		else {
+			System.out.println("Message: "+elementUtils.getText(zeroMatchFilter));
+		}
 	}
 	
 	public void clickReset() {
@@ -174,6 +186,7 @@ public class FilterPage {
 		String count=elementUtils.getText(filterCount);
 		int count1=Integer.parseInt(count.replaceAll("\\D", ""));
 		if(count1==0) {
+			elementUtils.waitForVisibility(zeroMatchFilter);
 			String text=elementUtils.getText(zeroMatchFilter);
 			System.out.println("Result: "+ text);
 		}

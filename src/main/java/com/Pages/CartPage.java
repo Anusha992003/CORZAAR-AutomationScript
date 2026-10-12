@@ -1,9 +1,14 @@
 package com.Pages;
 
+import java.time.Duration;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.utilities.ElementUtils;
@@ -51,8 +56,37 @@ public class CartPage {
 	@FindBy(xpath="//h1[contains(@class,'text-2xl sm:text-3xl font-black text-in')]")
 	private WebElement title;
 	
+	@FindBy(xpath="//h1[contains(@class,'text-3xl sm:text-4xl font-black text-')]")
+	private WebElement detailsPageTitle;
+	
+	@FindBy(xpath="//*[text()='Coupon Applied!']")
+	private List<WebElement> popup;
+	
+	@FindBy(xpath="//*[text()='Java Selenium']")
+	private WebElement courseInLearning;
+	
+	@FindBy(xpath="//*[text()='Java Selenium']")
+	private WebElement courseName;
+	
+	public String getSelectedCourseName() {
+		String a=elementUtils.getText(courseName);
+		return a.trim();
+	}
+	
+	
+	public String getLearningSpaceCourseName() {
+		WebDriverWait wait=new WebDriverWait(driver, Duration.ofSeconds(15));
+		WebElement course=wait.until(ExpectedConditions.visibilityOf(courseInLearning));
+		return course.getText().trim();
+	}
+	
 	public void clickCourse() {
-		elementUtils.click(courseCard);
+		elementUtils.click(courseName);
+	}
+	
+	public void getDetailsPageTitle() {
+		String a=elementUtils.getText(detailsPageTitle);
+		System.out.println("Course details page title is: "+a);
 	}
 	
 	public void pageRefresh() {
@@ -104,6 +138,17 @@ public class CartPage {
 		elementUtils.waitForVisibility(title);
 		String text=elementUtils.getText(title);
 		System.out.println("Navigated to: "+text + " page");
+	}
+	
+	public void validateInvaildCoupon() {
+		elementUtils.sendKeys(promoCodeField, "@#$");
+		elementUtils.click(applyBtn);
+		if(!popup.isEmpty() && popup.get(0).isDisplayed()) {
+			System.out.println("BUG: Invalid coupon code was accepted");
+		}
+		else {
+			System.out.println("Invalid coupon code was not accepted");
+		}
 	}
 	
 

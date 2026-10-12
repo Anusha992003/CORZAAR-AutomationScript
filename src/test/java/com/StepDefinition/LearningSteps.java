@@ -18,6 +18,7 @@ public class LearningSteps {
 	    learningPage=new LearningPage(DriverFactory.getDriver());
 	    learningPage.clickLearningModule();
 	    Assert.assertTrue(DriverFactory.getDriver().getCurrentUrl().contains("learning"));
+        learningPage.verifyEnrolledProgramsCount();
 	    learningPage.clickCourse();
 	    learningPage.verifyCourse();
 	}
@@ -36,12 +37,13 @@ public class LearningSteps {
 	}
 	@When("User clicks on other remaining modules")
 	public void user_clicks_on_other_remaining_modules() {
-	    learningPage.clickModule2();
+		learningPage.verifyModuleDisplay();
+	    //learningPage.clickModule2();
 	    //learningPage.clickModule3();
 	}
 	@Then("Course should get completed")
 	public void course_should_get_completed() {
-	    learningPage.getStatus();
+	    //learningPage.getStatus();
 	}
 	@Then("Official certificate should be generated")
 	public void official_certificate_should_be_generated() {

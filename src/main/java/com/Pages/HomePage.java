@@ -1,10 +1,14 @@
 package com.Pages;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
+import com.driverFactory.DriverFactory;
 import com.utilities.ElementUtils;
 
 public class HomePage {
@@ -38,6 +42,9 @@ public class HomePage {
 	@FindBy(xpath="//h3[contains(@class,'text-base font-bold ')]")
 	private WebElement invalidSearch;
 	
+	@FindBy(xpath="//a[contains(@class,'group flex flex-col bg-white dark:bg-')]")
+	private List<WebElement> courseCount;
+	
 	public void clickHomePageBtn() {
 		elementUtils.click(homePageBtn);
 	}
@@ -57,11 +64,17 @@ public class HomePage {
 	
 	public void verifySearchCount() {
 		String count=elementUtils.getText(searchCount);
+		int c=Integer.parseInt(count.replaceAll("\\D+", ""));
+		int d=courseCount.size();
+		Assert.assertEquals(c, d,"Course count is not matching");
 		System.out.println("Search count: "+count);
 	}
 	
-	public String verifySearchResult() {
-		return elementUtils.getText(searchResult);
+	public void verifySearchResult() {
+		String a=searchField.getAttribute("value");
+		String b=elementUtils.getText(searchResult);
+		Assert.assertEquals(a, b,"Course does not match");
+		System.out.println("Search result is displayed correctly");
 	}
 	
 	public void verifyInvalidSearch() {
