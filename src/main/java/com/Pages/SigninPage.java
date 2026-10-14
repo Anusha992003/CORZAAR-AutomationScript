@@ -51,6 +51,9 @@ public class SigninPage {
 	@FindBy(id="enter-6-digit-passcode")
 	private WebElement otpField;
 	
+	@FindBy(id="enter-6-digit-passcode")
+	private List<WebElement> otpFieldDisplay;
+	
 	@FindBy(xpath="//span[text()='Verify & Enter Learning Space']")
 	private WebElement submitBtn;
 	
@@ -59,6 +62,15 @@ public class SigninPage {
 	
 	@FindBy(xpath="//h1[contains(@class,'text-2xl sm:text-3xl font-bla')]")
 	private WebElement homePageTitle;
+	
+	@FindBy(xpath="//button[text()=' Change']")
+	private WebElement changeBtn;
+	
+	public void verifyChangeBtn() {
+		elementUtils.click(changeBtn);
+		Assert.assertTrue(mobileNumberField.isDisplayed());
+		elementUtils.click(sendOtpBtn);
+	}
 	
 	public void clickSiginBtn() {
 		elementUtils.click(signInBtn);
@@ -100,10 +112,10 @@ public class SigninPage {
 		elementUtils.click(submitBtn);
 	}
 	
-	public void getHomePageTitle() {
-		elementUtils.waitForVisibility(profileLogo);
-		 System.out.println("Home Page title is: "+ elementUtils.getText(homePageTitle));
+	public String getHomePageTitle() {
+		 return elementUtils.getText(homePageTitle);
 	}
+	
 	
 	public void getMsgForInvalidMobile() {
 		System.out.println("Validation msg: "+elementUtils.getText(mobileValidationMsg));
@@ -133,7 +145,7 @@ public class SigninPage {
 //		elementUtils.sendKeys(mobileNumberField, "9876543210");
 //		fullNameField.clear();
 //		elementUtils.click(submitBtn);
-		elementUtils.waitForVisibility(otpField);
+	//	elementUtils.waitForVisibility(otpField);
 		Assert.assertTrue(elementUtils.isDisplayed(otpField),"Form does not proceed with empty full name");
 	}
 	
@@ -147,6 +159,10 @@ public class SigninPage {
 		String a=elementUtils.getText(profileLogo);
 		Assert.assertFalse(a.trim().isEmpty(), "Profile logo initials are not displayed");
 		System.out.println("Profile logo initials after login: "+a);
+	}
+	
+	public boolean isOtpFieldDisplayed() {
+		return otpFieldDisplay.size()>0;
 	}
 	
 	public HomePage doLogin(String mobile, String name, String otp) {

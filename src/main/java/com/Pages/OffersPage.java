@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import com.utilities.ElementUtils;
 
@@ -32,6 +33,12 @@ public class OffersPage {
 	@FindBy(xpath="//span[text()='Get My Referral Code']")
 	private WebElement getCodeBtn;
 	
+	@FindBy(xpath="//p[contains(@class,'text-xs text-ink-muted dark:text-dark-ink-muted mt-0.5 leading-relaxed')]")
+	private WebElement validationCpyMsg;
+	
+	@FindBy(xpath="(//div[contains(@class,'font-mono text-sm font-black text-bra')])[1]")
+	private WebElement codeName;
+	
 	public void clickOffers() {
 		elementUtils.click(offersModule);
 	}
@@ -54,6 +61,11 @@ public class OffersPage {
 		elementUtils.click(getCodeBtn);
 	}
 	
+	public void validateCpyMsg() {
+		String a=elementUtils.getText(validationCpyMsg);
+		String b=elementUtils.getText(codeName);
+		Assert.assertTrue(a.toLowerCase().contains(b.toLowerCase()),"Copy popup is not displaying correct code");
+	}
 
 
 }

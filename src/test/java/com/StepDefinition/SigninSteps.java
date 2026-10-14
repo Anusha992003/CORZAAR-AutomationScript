@@ -42,6 +42,7 @@ public class SigninSteps {
 			signinPage.validateEmptyMobileField();
 		break;
 		case "invalid":
+			Assert.assertFalse(signinPage.isOtpFieldDisplayed(),"OTP field should not appear for invalid mobile number");
 			signinPage.getMsgForInvalidMobile();
 		break;
 		case "optional":
@@ -58,6 +59,7 @@ public class SigninSteps {
 	public void user_enters_otp(String mobile, String name, String otp) {
 		signinPage.clickSiginBtn();
 		signinPage.otpPageNavigation(mobile, name);
+		signinPage.verifyChangeBtn();
 	    signinPage.enterOTP(otp);
 	}
 	@And("User clicks on Verify & enter learning space button")
@@ -71,12 +73,12 @@ public class SigninSteps {
 			signinPage.getMsgForInvalidOtp();
 		break;	
 		case "valid":
-//			System.out.println("Current URL:"+DriverFactory.getDriver().getCurrentUrl());
+//		    System.out.println("Current URL:"+DriverFactory.getDriver().getCurrentUrl());
 //			System.out.println("Current Title: "+DriverFactory.getDriver().getTitle());
 //			String s=DriverFactory.getDriver().getPageSource();
 //			System.out.println("Page source: "+s.substring(0,Math.min(s.length(), 500)));
 			//Assert.assertTrue(DriverFactory.getDriver().getCurrentUrl().contains("learning"));
-		    signinPage.getHomePageTitle(); 
+			//System.out.println("Home page title is: "+signinPage.getHomePageTitle());
 		    signinPage.validateProfileLogo();
 		break;
 		case "empty":

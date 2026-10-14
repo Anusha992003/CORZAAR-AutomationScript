@@ -103,8 +103,9 @@ public class LearningPage {
 	}
 	
 	public void verifyModuleDisplay() {
+		elementUtils.waitForVisibilityOfAllElements(noModuleMsg);
 		if(!noModuleMsg.isEmpty() && noModuleMsg.get(0).isDisplayed()) {
-			System.out.println("BUG: After completing the first module, the remaining modules disappear and the message " + noModuleMsg + " is displayed.");
+			System.out.println("BUG: After completing the first module, the remaining modules disappear and the message "+"No curriculum items registered for this program"+ " is displayed.");
 		}
 //		else if(module2.isEmpty()) {
 //			System.out.println("BUG: The second module is not displayed after completing the first module");

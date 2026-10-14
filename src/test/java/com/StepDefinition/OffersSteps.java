@@ -26,6 +26,7 @@ public class OffersSteps {
 	public void user_clicks_on_copy_option_of_any_card() {
 	    offersPage.clickCopy();
 	    offersPage.getCopyMsg();
+	    offersPage.validateCpyMsg();
 	}
 	@Then("User clicks on Get My Referral code button")
 	public void user_clicks_on_get_my_referral_code_button() {

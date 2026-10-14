@@ -37,7 +37,7 @@ public class HomePage {
 	private WebElement searchCount;
 	
 	@FindBy(xpath="//h3[contains(@class,'text-base font-bold text-ink')]")
-	private WebElement searchResult;
+	private List<WebElement> searchResult;
 	
 	@FindBy(xpath="//h3[contains(@class,'text-base font-bold ')]")
 	private WebElement invalidSearch;
@@ -72,12 +72,18 @@ public class HomePage {
 	
 	public void verifySearchResult() {
 		String a=searchField.getAttribute("value");
-		String b=elementUtils.getText(searchResult);
-		Assert.assertEquals(a, b,"Course does not match");
+		Assert.assertFalse(searchResult.isEmpty(),"No courses displayed");
+		for (WebElement course : searchResult) {
+			String b=elementUtils.getText(course);
+			Assert.assertTrue(b.toLowerCase().contains(a.toLowerCase()),"Course does not match search");
+		}
+		//Assert.assertEquals(a, b,"Course does not match");
 		System.out.println("Search result is displayed correctly");
 	}
 	
 	public void verifyInvalidSearch() {
+		elementUtils.waitForVisibility(invalidSearch);
+		Assert.assertTrue(invalidSearch.isDisplayed(),"Validation message is not displayed for invalid input");
 		String text=elementUtils.getText(invalidSearch);
 		System.out.println("Invalid search: "+text);
 	}
