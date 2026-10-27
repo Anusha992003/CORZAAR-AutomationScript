@@ -145,7 +145,7 @@ public class SigninPage {
 //		elementUtils.sendKeys(mobileNumberField, "9876543210");
 //		fullNameField.clear();
 //		elementUtils.click(submitBtn);
-	//	elementUtils.waitForVisibility(otpField);
+		elementUtils.waitForVisibility(otpField);
 		Assert.assertTrue(elementUtils.isDisplayed(otpField),"Form does not proceed with empty full name");
 	}
 	
@@ -155,7 +155,7 @@ public class SigninPage {
 	}
 	
 	public void validateProfileLogo() {
-		elementUtils.waitForVisibility(profileLogo);
+		//elementUtils.waitForVisibility(profileLogo);
 		String a=elementUtils.getText(profileLogo);
 		Assert.assertFalse(a.trim().isEmpty(), "Profile logo initials are not displayed");
 		System.out.println("Profile logo initials after login: "+a);

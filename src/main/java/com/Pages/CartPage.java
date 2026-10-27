@@ -69,7 +69,7 @@ public class CartPage {
 	@FindBy(xpath="//h3[contains(@class,'text-sm font-bold text-ink dark')]")
 	private List<WebElement> courseInLearning;
 	
-	@FindBy(xpath="(//h3[contains(@class,'text-base font-bold text-ink dark:text-da')])[2]")
+	@FindBy(xpath="(//h3[contains(@class,'text-base font-bold text-ink dark:text-da')])[3]")
 	private WebElement courseName;
 	
 	@FindBy(xpath="//span[contains(text(),'Course (')]")

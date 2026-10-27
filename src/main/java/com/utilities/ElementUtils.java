@@ -148,5 +148,9 @@ public class ElementUtils {
 	    }
 
 	}
+	
+	public void navigateBack() {
+		driver.navigate().back();
+	}
 
 }

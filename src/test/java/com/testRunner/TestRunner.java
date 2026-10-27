@@ -6,7 +6,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
 		features = {"src\\test\\resources\\com.Features"},
 		glue = {"com.StepDefinition","com.hooksClass"},
-		//tags="@Refund",
+		tags="@HomeSign",
 		plugin = {"pretty","html:target/cucumber-report.html"})
 
 public class TestRunner extends AbstractTestNGCucumberTests {

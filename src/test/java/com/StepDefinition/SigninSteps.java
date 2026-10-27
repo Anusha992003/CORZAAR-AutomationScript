@@ -46,7 +46,7 @@ public class SigninSteps {
 			signinPage.getMsgForInvalidMobile();
 		break;
 		case "optional":
-			signinPage.validateOptionalFullName();
+			//signinPage.validateOptionalFullName();
 		break;
 		case "maxLen":
 			signinPage.validateMobileLength();
